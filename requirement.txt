@@ -1,0 +1,5 @@
+black>=21.*
+mypy>=0.800
+typing==3.7.*
+pytest==6.*
+opencv-python==4.5.*
