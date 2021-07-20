@@ -1,7 +1,7 @@
 NAME	=	Camera 
 
 all:
-	pip install -r requirement.txt
+	pip install -r requirements.txt
 	ln -s src/main.py $(NAME)
 	chmod +x $(NAME)
 
