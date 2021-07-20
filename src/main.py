@@ -6,7 +6,7 @@ from typing import List
 from os.path import exists
 
 
-def video(path: str):
+def video(path: str) -> int:
     cap = cv.VideoCapture(path)
     while cap.isOpened():
         ret, frame = cap.read()
@@ -23,7 +23,7 @@ def video(path: str):
     return 0
 
 
-def camera():
+def camera() -> int:
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
         print("Cannot open camera")
@@ -47,7 +47,7 @@ def camera():
     return 0
 
 
-def main(n: int, args: List[str]):
+def main(n: int, args: List[str]) -> int:
     if n == 2 and args[1] == "cam":
         return camera()
     elif n == 3 and args[1] == "vid" and exists(args[2]):
