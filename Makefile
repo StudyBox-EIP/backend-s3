@@ -1,16 +1,21 @@
 NAME	=	Camera 
 
+MAIN	=	src/__main__.py
+
+RM	=	rm -fr
+
 all:
 	pip install -r requirements.txt
-	ln -s src/main.py $(NAME)
+	ln -s $(MAIN) $(NAME)
 	chmod +x $(NAME)
 
 clean:
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 fclean: clean
-	rm -fr .mypy_cache
-	rm -fr */__pycache__
+	$(RM) .mypy_cache
+	$(RM) .pytest_cache
+	$(RM) */__pycache__
 
 re: fclean all
 
@@ -23,4 +28,4 @@ tests_run:
 format:
 	black .
 
-.PHONY: all format check tests_run clean fclean re
+.PHONY: all clean fclean re check tests_run format
