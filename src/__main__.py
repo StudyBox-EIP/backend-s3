@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from addons.arguments import treat_arguments
-from addons.work import camera, video
+from cam.cam import camera
+from vid.vid import video
 from sys import argv
 from typing import List
 
