@@ -1,6 +1,5 @@
 from typing import Tuple, List
 from argparse import ArgumentParser, ArgumentError
-from pathlib import Path
 from sys import stderr
 from os.path import isfile
 

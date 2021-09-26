@@ -3,7 +3,6 @@ from addons.arguments import treat_arguments
 from cam.cam import camera
 from vid.vid import video
 from sys import argv
-from typing import List
 
 
 def main() -> int:
