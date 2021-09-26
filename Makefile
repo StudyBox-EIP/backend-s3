@@ -4,7 +4,7 @@ MAIN	=	src/__main__.py
 
 RM	=	rm -fr
 
-all:
+all: clean
 	pip install -r requirements.txt
 	ln -s $(MAIN) $(NAME)
 	chmod +x $(NAME)
