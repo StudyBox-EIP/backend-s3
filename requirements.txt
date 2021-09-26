@@ -5,4 +5,3 @@ pytest==6.*
 opencv-python==4.5.*
 argparse==1.4.*
 pylint>=3.*
-pylint-badge>=0.9.*
