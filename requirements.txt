@@ -3,3 +3,5 @@ mypy>=0.800
 typing==3.7.*
 pytest==6.*
 opencv-python==4.5.*
+argparse==1.4.*
+pylint>=3.*

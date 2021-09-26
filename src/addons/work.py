@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
 import numpy as np
 import cv2 as cv
-from sys import argv
-from typing import List
-from os.path import exists
 
 
 def video(path: str) -> int:
@@ -45,15 +41,3 @@ def camera() -> int:
     cap.release()
     cv.destroyAllWindows()
     return 0
-
-
-def main(n: int, args: List[str]) -> int:
-    if n == 2 and args[1] == "cam":
-        return camera()
-    elif n == 3 and args[1] == "vid" and exists(args[2]):
-        return video(args[2])
-    return 84
-
-
-if __name__ == "__main__":
-    exit(main(len(argv), argv))
