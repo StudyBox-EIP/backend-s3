@@ -5,7 +5,8 @@ from sys import stderr
 from os.path import isfile
 
 # Default video when 'vid' type is selected
-default_video = ""
+default_video = "assets/videos/rabbit.mp4"
+
 
 # This is all format video accepted by the program
 video_format = [".mp4", ".m4a"]
