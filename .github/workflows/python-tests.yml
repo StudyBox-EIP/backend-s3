@@ -3,7 +3,7 @@ name: Python - Testing
 on: [workflow_dispatch, pull_request]
 
 jobs:
-  tests:
+  pytest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
