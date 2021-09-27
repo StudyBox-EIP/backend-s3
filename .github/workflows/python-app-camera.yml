@@ -34,9 +34,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip;
+          python -m pip install -r requirements.txt;
       - name: Check Errors with mypy
         run: |
-          make
           make check
 
   pylint:
@@ -47,9 +50,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Check Errors with mypy
+      - name: Install dependencies
         run: |
-          make
+          python -m pip install --upgrade pip;
+          python -m pip install -r requirements.txt;
+      - name: Check Errors with pylint
+        run: |
           make quality
 
   tests:
@@ -60,8 +66,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Test with pytest
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip;
           python -m pip install -r requirements.txt;
+      - name: Test with pytest
+        run: |
           make tests_run
