@@ -1,7 +1,11 @@
+"""Camera mode of the program"""
 import cv2 as cv
 
 
 def camera() -> int:
+    """
+    NEED DESCRIPTION
+    """
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
         print("Cannot open camera")

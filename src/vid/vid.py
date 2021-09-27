@@ -1,7 +1,11 @@
+"""Video mode of the program"""
 import cv2 as cv
 
 
 def video(path: str) -> int:
+    """
+    NEED DESCRIPTION
+    """
     cap = cv.VideoCapture(path)
     while cap.isOpened():
         ret, frame = cap.read()

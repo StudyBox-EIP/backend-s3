@@ -24,10 +24,33 @@ jobs:
           python -m pip install -r requirements.txt;
       - name: Lint with black
         run: |
-          black .
+          make format
+
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: Check Errors with mypy
         run: |
-          mypy --strict --ignore-missing-imports ./src
+          make
+          make check
+
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Check Errors with mypy
+        run: |
+          make
+          make quality
 
   tests:
     runs-on: ubuntu-latest

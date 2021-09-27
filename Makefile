@@ -19,6 +19,9 @@ fclean: clean
 
 re: fclean all
 
+quality:
+	pylint -rn src/
+
 check:
 	mypy --strict --ignore-missing-imports src
 
@@ -28,4 +31,4 @@ tests_run:
 format:
 	black .
 
-.PHONY: all clean fclean re check tests_run format
+.PHONY: all clean fclean re quality check tests_run format
