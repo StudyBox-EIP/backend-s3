@@ -7,9 +7,7 @@ from addons.arguments import treat_arguments
 
 
 def main() -> int:
-    """
-    This function starts the program.
-    """
+    """This function starts the program."""
     elm = treat_arguments(sys.argv)
 
     if elm[0] == "vid":

@@ -5,6 +5,7 @@ import cv2 as cv
 def camera() -> int:
     """
     NEED DESCRIPTION
+    TO FILE
     """
     cap = cv.VideoCapture(0)
     if not cap.isOpened():

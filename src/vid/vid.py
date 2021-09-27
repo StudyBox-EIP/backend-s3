@@ -5,6 +5,7 @@ import cv2 as cv
 def video(path: str) -> int:
     """
     NEED DESCRIPTION
+    TO FILE
     """
     cap = cv.VideoCapture(path)
     while cap.isOpened():
