@@ -1,15 +1,16 @@
+"""Gets the input for the program."""
 from typing import Tuple, List
 from argparse import ArgumentParser, ArgumentError
-from pathlib import Path
 from sys import stderr
 from os.path import isfile
+import sys
 
 # Default video when 'vid' type is selected
-default_video = "assets/videos/rabbit.mp4"
+DEFAULT_VIDEO = "assets/videos/rabbit.mp4"
 
 
 # This is all format video accepted by the program
-video_format = [".mp4", ".m4a"]
+VIDEO_FORMAT = [".mp4", ".m4a"]
 
 
 def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
@@ -29,31 +30,32 @@ def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
         "-f",
         "--file",
         type=str,
-        default=default_video,
+        default=DEFAULT_VIDEO,
         help="this is the video used by the 'vid' type",
     )
     try:
         args = parser.parse_args(arguments)
     except ArgumentError:
         parser.print_help()
-        exit(84)
+        sys.exit(84)
     return (args.type, args.file)
 
 
 def treat_arguments(args: List[str]) -> Tuple[str, str]:
     """
     This takes in all the argument wanted an treats them.
+
     This returns a Tuple with the functionment type and the adress of a video file.
-    This function exits when a parameter is not right or as an issue.
+    This function sys.exits when a parameter is not right or as an issue.
     """
     parse = parse_arguments(args[1:])
 
     if parse[0] == "vid":
         if not isfile(parse[1]):
             print("Adress given is not a file or doesn't exist.", file=stderr)
-            exit(84)
-        if not (parse[1][-4:] in video_format):
+            sys.exit(84)
+        if not parse[1][-4:] in VIDEO_FORMAT:
             print("This file is not in an accepted format.", file=stderr)
-            print(f"The accepted format are : {video_format}", file=stderr)
-            exit(84)
+            print(f"The accepted format are : {VIDEO_FORMAT}", file=stderr)
+            sys.exit(84)
     return (parse[0], parse[1])
