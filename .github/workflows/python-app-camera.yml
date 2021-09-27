@@ -36,6 +36,7 @@ jobs:
           python-version: 3.9
       - name: Check Errors with mypy
         run: |
+          make
           make check
 
   pylint:
@@ -48,6 +49,7 @@ jobs:
           python-version: 3.9
       - name: Check Errors with mypy
         run: |
+          make
           make quality
 
   tests:
