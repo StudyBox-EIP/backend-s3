@@ -4,8 +4,9 @@ import cv2 as cv
 
 def camera() -> int:
     """
-    NEED DESCRIPTION
-    TO FILE
+    This function launches your camera and displays the humans.
+
+    This is not final and might be cut later.
     """
     cap = cv.VideoCapture(0)
     if not cap.isOpened():

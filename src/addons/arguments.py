@@ -44,6 +44,7 @@ def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
 def treat_arguments(args: List[str]) -> Tuple[str, str]:
     """
     This takes in all the argument wanted an treats them.
+
     This returns a Tuple with the functionment type and the adress of a video file.
     This function sys.exits when a parameter is not right or as an issue.
     """

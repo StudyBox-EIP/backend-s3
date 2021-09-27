@@ -4,8 +4,9 @@ import cv2 as cv
 
 def video(path: str) -> int:
     """
-    NEED DESCRIPTION
-    TO FILE
+    This function launches a video and displays the humans.
+
+    This is not final and might be cut later.
     """
     cap = cv.VideoCapture(path)
     while cap.isOpened():
