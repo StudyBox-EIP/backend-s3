@@ -1,4 +1,4 @@
-"""Gets the input for the program"""
+"""Gets the input for the program."""
 from typing import Tuple, List
 from argparse import ArgumentParser, ArgumentError
 from sys import stderr

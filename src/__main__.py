@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Main of the Program"""
+"""Main of the Program."""
 import sys
 from cam.cam import camera
 from vid.vid import video

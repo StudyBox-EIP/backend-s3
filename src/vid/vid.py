@@ -1,4 +1,4 @@
-"""Video mode of the program"""
+"""Video mode of the program."""
 import cv2 as cv
 
 

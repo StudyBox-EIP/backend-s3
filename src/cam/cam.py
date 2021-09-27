@@ -1,4 +1,4 @@
-"""Camera mode of the program"""
+"""Camera mode of the program."""
 import cv2 as cv
 
 
