@@ -23,7 +23,7 @@ def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
     parser.add_argument(
         "type",
         type=str,
-        choices=["cam", "vid"],
+        choices=["cam", "vid", "img"],
         help="this is the type of use wanted for the program",
     )
     parser.add_argument(
