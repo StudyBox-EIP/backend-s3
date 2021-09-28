@@ -27,10 +27,6 @@ re: fclean all
 quality:
 	pylint -rn src/
 
-# Generates a badge for code
-badge:
-	pylint-badge src docs/pylint.svg
-
 # Checks errors and code quality with mypy
 check:
 	mypy --strict --ignore-missing-imports src
