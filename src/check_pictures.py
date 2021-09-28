@@ -7,7 +7,7 @@ import imutils
 import cv2
 
 
-def check_pedestrian() -> None:
+def check_pedestrian() -> int:
     """This is the check for pedestrian trough a folder of pictures.
 
     This is an independent part of the code.
