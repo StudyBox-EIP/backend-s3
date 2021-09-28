@@ -16,6 +16,7 @@ VIDEO_FORMAT = [".mp4", ".m4a"]
 def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
     """
     This fonction parses all the arguments and takes care of the help display.
+
     This returns a tuple of all the wanted arguement.
     It should takes 'argv' without the first element.
     """

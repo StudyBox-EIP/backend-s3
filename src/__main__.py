@@ -8,7 +8,7 @@ from addons.arguments import treat_arguments
 
 
 def main() -> int:
-    """This function starts the program."""
+    """Starts the program."""
     elm = treat_arguments(sys.argv)
     rtn_value = 84
 
