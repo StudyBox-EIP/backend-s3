@@ -3,8 +3,7 @@ import cv2 as cv
 
 
 def video(path: str) -> int:
-    """
-    This function launches a video and displays the humans.
+    """This function launches a video and displays the humans.
 
     This is not final and might be cut later.
     """

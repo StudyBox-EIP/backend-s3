@@ -3,8 +3,7 @@ import cv2 as cv
 
 
 def camera() -> int:
-    """
-    This function launches your camera and displays the humans.
+    """This function launches your camera and displays the humans.
 
     This is not final and might be cut later.
     """

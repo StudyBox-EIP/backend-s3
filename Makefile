@@ -39,4 +39,4 @@ tests_run:
 format:
 	black .
 
-.PHONY: all clean fclean re quality check tests_run format
+.PHONY: all clean fclean re quality badge check tests_run format
