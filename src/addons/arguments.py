@@ -14,8 +14,7 @@ VIDEO_FORMAT = [".mp4", ".m4a"]
 
 
 def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
-    """
-    This fonction parses all the arguments and takes care of the help display.
+    """This fonction parses all the arguments and takes care of the help display.
 
     This returns a tuple of all the wanted arguement.
     It should takes 'argv' without the first element.
@@ -43,8 +42,7 @@ def parse_arguments(arguments: List[str]) -> Tuple[str, str]:
 
 
 def treat_arguments(args: List[str]) -> Tuple[str, str]:
-    """
-    This takes in all the argument wanted an treats them.
+    """This takes in all the argument wanted an treats them.
 
     This returns a Tuple with the functionment type and the adress of a video file.
     This function sys.exits when a parameter is not right or as an issue.

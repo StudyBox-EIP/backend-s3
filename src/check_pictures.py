@@ -1,4 +1,4 @@
-"""Checks people in a set of data"""
+"""Checks people in a set of data."""
 from __future__ import print_function
 from imutils.object_detection import non_max_suppression
 from imutils import paths
@@ -8,8 +8,7 @@ import cv2
 
 
 def check_pedestrian() -> None:
-    """
-    This is the check for pedestrian trough a folder of pictures.
+    """This is the check for pedestrian trough a folder of pictures.
 
     This is an independent part of the code.
     """
