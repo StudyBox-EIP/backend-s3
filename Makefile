@@ -16,7 +16,7 @@ TEST	=	pytest
 
 TYPE	=	mypy --strict --ignore-missing-imports
 
-QUALITY	=	pylint -rn
+QUALITY	=	pylint -rn --fail-under=7.5
 
 # Executes the program
 all: clean
