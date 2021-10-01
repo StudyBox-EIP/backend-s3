@@ -12,7 +12,7 @@ SYMLINK	=	ln -s
 
 FORMATER	=	black
 
-TEST	=	pytest
+TEST	=	pytest -v --no-header
 
 TYPE	=	mypy --strict --ignore-missing-imports
 
