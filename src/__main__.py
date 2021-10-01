@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Main of the Program."""
 import sys
-from cam.cam import camera
-from vid.vid import video
+from video.cam import camera
+from video.vid import video
 from check_pictures import check_pedestrian
 from addons.arguments import treat_arguments
 

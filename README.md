@@ -2,7 +2,14 @@
 
 This repository is made for the part of the project related to the camera system.
 
+Current advancement on Sprint:
+
+![Advancements](https://progress-bar.dev/80/?scale=100&width=200&title=Done)
+
+## Table of Content
+
 - [Repository for the Backend-S3](#repository-for-the-backend-s3)
+  - [Table of Content](#table-of-content)
   - [Quality Insurance](#quality-insurance)
   - [Installation](#installation)
   - [Program Usage](#program-usage)

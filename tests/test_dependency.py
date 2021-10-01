@@ -1,6 +1,3 @@
-import pytest
-
-# Dependency
 import cv2 as cv
 from argparse import ArgumentParser, ArgumentError
 
