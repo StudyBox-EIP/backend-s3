@@ -26,7 +26,3 @@ jobs:
       - name: Test with pytest
         run: |
           make tests_run
->>>>>>> parent of d97d5a1 (FIX: change lfs in action to pull)
-=======
-/annex/objects/SHA256E-s628--ec67e83ce1989034411531d3c6045052f3b1703a93d3914f8d73191525d5ad9a.yml
->>>>>>> d1875787263ef5dd46debf64aa03d2403b03d111

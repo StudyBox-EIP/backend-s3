@@ -1,1 +1,8 @@
-/annex/objects/SHA256E-s114--1f37756bd2733810883185fab3ef3320db664cba2c4a831067b9b2cf687a6ee2.txt
+black>=21.*
+mypy>=0.800
+typing==3.7.*
+pytest==6.*
+opencv-python==4.5.*
+argparse==1.4.*
+pylint>=3.*
+imutils>=0.5.*
