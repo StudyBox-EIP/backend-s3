@@ -7,3 +7,4 @@ argparse>=1.4.*
 pylint>=3.*
 imutils>=0.5.*
 numpy>=1.21.*
+pluggy>= 0.13.*
