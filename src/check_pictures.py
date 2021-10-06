@@ -1,9 +1,8 @@
 """Checks people in a set of data."""
-from __future__ import print_function
 from imutils.object_detection import non_max_suppression
 from imutils import paths
-import numpy as np
 import imutils
+import numpy as np
 import cv2
 
 
