@@ -14,6 +14,7 @@ def check_pedestrian() -> int:
     """
     hog = cv2.HOGDescriptor()
     hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+    waitTime = 600
 
     for image_path in paths.list_images("assets/pictures"):
         image = cv2.imread(image_path)
@@ -34,5 +35,5 @@ def check_pedestrian() -> int:
         )
         cv2.imshow("Avant NMS", orig)
         cv2.imshow("Apres NMS", image)
-        cv2.waitKey(0)
+        cv2.waitKey(waitTime)
     return 0
