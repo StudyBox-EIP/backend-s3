@@ -1,1 +1,5 @@
-/annex/objects/SHA256E-s123--55bfb7a79b5f77ddbe6bf010ed2385df82a6dbfa38b8422d331651d9b116b778.py
+from src.check_pictures import check_pedestrian
+
+
+def test_pictures_normal() -> None:
+    assert check_pedestrian(50) == 0
