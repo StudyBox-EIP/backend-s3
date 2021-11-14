@@ -2,7 +2,7 @@
 import cv2 as cv
 
 
-def video(path: str) -> int:
+def video(path: str, show: bool = True) -> int:
     """This function launches a video and displays the humans.
 
     This is not final and might be cut later.
@@ -19,7 +19,8 @@ def video(path: str) -> int:
             print("Can't receive frame (stream end?). Exiting ...")
             break
         gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        cv.imshow("frame", gray)
+        if show:
+            cv.imshow("frame", gray)
         if cv.waitKey(1) == ord("q"):
             break
     cap.release()
