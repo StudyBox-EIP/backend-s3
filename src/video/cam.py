@@ -2,7 +2,7 @@
 import cv2 as cv
 
 
-def camera() -> int:
+def camera(show: bool = True) -> int:
     """This function launches your camera and displays the humans.
 
     This is not final and might be cut later.
@@ -21,7 +21,8 @@ def camera() -> int:
         # Our operations on the frame come here
         gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
         # Display the resulting frame
-        cv.imshow("frame", gray)
+        if show:
+            cv.imshow("frame", gray)
         if cv.waitKey(1) == ord("q"):
             break
     # When everything done, release the capture

@@ -6,7 +6,7 @@ import numpy as np
 import cv2 as cv
 
 
-def check_pedestrian(wait_time: int = 0) -> int:
+def check_pedestrian(wait_time: int = 0, show: bool = True) -> int:
     """This is the check for pedestrian trough a folder of pictures.
 
     This is an independent part of the code.
@@ -31,7 +31,8 @@ def check_pedestrian(wait_time: int = 0) -> int:
         print(
             f"[INFO] {filename}: {len(rects)} boite d'origne, {len(pick)} apres correction"
         )
-        cv.imshow("Avant NMS", orig)
-        cv.imshow("Apres NMS", image)
+        if show:
+            cv.imshow("Avant NMS", orig)
+            cv.imshow("Apres NMS", image)
         cv.waitKey(wait_time)
     return 0
