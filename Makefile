@@ -1,13 +1,27 @@
 NAME	=	Camera 
 
-MAIN	=	src/__main__.py
+SOURCE_FOLDER	=	src/
+
+TEST_FOLDER	=	tests/
+
+MAIN	=	$(SOURCE_FOLDER)__main__.py
 
 RM	=	rm -fr
+
+SYMLINK	=	ln -s
+
+FORMATER	=	black
+
+TEST	=	pytest -v --no-header
+
+TYPE	=	mypy --strict --ignore-missing-imports
+
+QUALITY	=	pylint -rn --fail-under=7.5
 
 # Executes the program
 all: clean
 	pip install -r requirements.txt
-	ln -s $(MAIN) $(NAME)
+	$(SYMLINK) $(MAIN) $(NAME)
 	chmod +x $(NAME)
 
 # Remove Binary
@@ -24,19 +38,19 @@ fclean: clean
 re: fclean all
 
 # Checks code quality with pylint
-quality:
-	pylint -rn src/
+check_quality:
+	$(QUALITY) $(SOURCE_FOLDER)
 
 # Checks errors and code quality with mypy
-check:
-	mypy --strict --ignore-missing-imports src
+check_type:
+	$(TYPE) $(SOURCE_FOLDER)
 
 # Runs all the tests
 tests_run:
-	pytest tests
+	$(TEST) $(TEST_FOLDER)
 
 # Format every file with black
 format:
-	black .
+	$(FORMATER) $(SOURCE_FOLDER)
 
-.PHONY: all clean fclean re quality badge check tests_run format
+.PHONY: all clean fclean re check_quality check_type tests_run format

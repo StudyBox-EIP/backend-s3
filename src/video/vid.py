@@ -8,6 +8,10 @@ def video(path: str) -> int:
     This is not final and might be cut later.
     """
     cap = cv.VideoCapture(path)
+    rt_value = 84
+
+    if cap.isOpened():
+        rt_value = 0
     while cap.isOpened():
         ret, frame = cap.read()
         # if frame is read correctly ret is True
@@ -20,4 +24,4 @@ def video(path: str) -> int:
             break
     cap.release()
     cv.destroyAllWindows()
-    return 0
+    return rt_value

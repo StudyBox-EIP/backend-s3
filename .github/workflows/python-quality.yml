@@ -39,7 +39,7 @@ jobs:
           python -m pip install -r requirements.txt;
       - name: Check Errors with mypy
         run: |
-          make check
+          make check_type
 
   pylint:
     runs-on: ubuntu-latest
@@ -55,4 +55,4 @@ jobs:
           python -m pip install -r requirements.txt;
       - name: Check Errors with pylint
         run: |
-          make quality
+          make check_quality

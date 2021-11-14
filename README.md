@@ -1,8 +1,16 @@
 # Repository for the Backend-S3
 
 This repository is made for the part of the project related to the camera system.
+This used to use git annex and some commits have been imparted by it.
+
+Current advancement on Sprint:
+
+![Advancements](https://progress-bar.dev/100/?scale=100&width=200&title=Done)
+
+## Table of Content
 
 - [Repository for the Backend-S3](#repository-for-the-backend-s3)
+  - [Table of Content](#table-of-content)
   - [Quality Insurance](#quality-insurance)
   - [Installation](#installation)
   - [Program Usage](#program-usage)
@@ -21,7 +29,7 @@ This repository is made for the part of the project related to the camera system
 [![Python - Quality Check](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml)
 [![Python - Testing](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8080333da996469ca2ed7e9d23471efe)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=StudyBox-EIP/backend-s3&amp;utm_campaign=Badge_Grade)
-![pylint Score](https://mperlet.github.io/pybadge/badges/9.13.svg)
+![pylint Score](https://mperlet.github.io/pybadge/badges/9.14.svg)
 
 ## Installation
 
