@@ -162,7 +162,9 @@ Thumbs.db
 # vscode
 .vscode
 
-# Project Name
+# Project things
 Camera
+assets/pictures/
+assets/videos/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,opencv
