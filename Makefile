@@ -49,8 +49,12 @@ check_type:
 tests_run:
 	$(TEST) $(TEST_FOLDER)
 
+# Download assets
+assets:
+	./download.sh
+
 # Format every file with black
 format:
 	$(FORMATER) $(SOURCE_FOLDER)
 
-.PHONY: all clean fclean re check_quality check_type tests_run format
+.PHONY: all clean fclean re check_quality check_type tests_run assets format
