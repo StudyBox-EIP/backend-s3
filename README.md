@@ -5,7 +5,7 @@ This used to use git annex and some commits have been imparted by it.
 
 Current advancement on Sprint:
 
-![Advancements](https://progress-bar.dev/100/?scale=100&width=200&title=Done)
+![Advancements](https://progress-bar.dev/25/?scale=100&width=200&title=Done)
 
 ## Table of Content
 
@@ -29,7 +29,7 @@ Current advancement on Sprint:
 [![Python - Quality Check](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml)
 [![Python - Testing](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8080333da996469ca2ed7e9d23471efe)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=StudyBox-EIP/backend-s3&amp;utm_campaign=Badge_Grade)
-![pylint Score](https://mperlet.github.io/pybadge/badges/9.14.svg)
+![pylint Score](https://mperlet.github.io/pybadge/badges/9.19.svg)
 
 ## Installation
 
@@ -87,6 +87,7 @@ This mode is temporary but it uses the folder `assets/pictures` to analyse how m
 
 - **Chief Programer**: Justin BLARD
 - **Main Programer**: Justin BLARD
+- **Programer**: Nathan MOIGNARD
 
 ## Sources
 
