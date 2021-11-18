@@ -5,7 +5,16 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      - cron: "42 23 * * *"
+      interval: "weekly"
+      day: "friday"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    target-branch: "develop"
+    versioning-strategy: increase-if-necessary
+    schedule:
+      interval: "daily"
+      time: "13:00"
