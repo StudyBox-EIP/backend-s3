@@ -7,6 +7,10 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
+    versioning-strategy: auto
+    commit-message:
+      prefix: "[UPD] Github-Action Dependencies"
+      include: "Scope of update"
     schedule:
       interval: "weekly"
       day: "friday"
@@ -15,6 +19,9 @@ updates:
     directory: "/"
     target-branch: "develop"
     versioning-strategy: increase-if-necessary
+    commit-message:
+      prefix: "[UPD] PIP Dependencies"
+      include: "Scope of update"
     schedule:
       interval: "daily"
       time: "13:00"
