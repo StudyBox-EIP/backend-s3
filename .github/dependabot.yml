@@ -9,8 +9,8 @@ updates:
     directory: "/"
     versioning-strategy: auto
     commit-message:
-      prefix: "[UPD] Github-Action Dependencies"
-      include: "Scope of update"
+      prefix: "[UPD] GH-Action"
+      include: "scope"
     schedule:
       interval: "weekly"
       day: "friday"
@@ -18,10 +18,10 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     target-branch: "develop"
-    versioning-strategy: increase-if-necessary
+    versioning-strategy: auto
     commit-message:
-      prefix: "[UPD] PIP Dependencies"
-      include: "Scope of update"
+      prefix: "[UPD] PIP"
+      include: "scope"
     schedule:
       interval: "daily"
       time: "13:00"
