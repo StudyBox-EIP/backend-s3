@@ -1,7 +1,9 @@
 """Info fo room"""
 import csv
+from os import error
 import uuid
 import datetime
+import json
 from os.path import isfile
 from enum import Enum
 
@@ -25,15 +27,15 @@ class RoomErrors(Enum):
         "FRAUD: There is a negative amount of people (Might be an intruder)",
     )
 
-    def __str__(self) -> str:
+    def __str__(self):
         """Summary
 
         Returns:
             str: [description]
         """
         if self.value[0] == 0:
-            return "NO ERROR"
-        return f"ERROR {self.value[0]}: '{self.value[1]}'"
+            return "no error"
+        return f"Error {self.value[0]}: '{self.value[1]}'"
 
 
 class RoomStatus(Enum):
@@ -69,7 +71,7 @@ class Room:
         max_occupancy: int = 1,
         room_id: uuid.UUID = uuid.uuid4(),
         volume_max: int = 70,
-    ) -> None:
+    ):
         """Summary
 
         Args:
@@ -83,7 +85,7 @@ class Room:
         self.max_occupancy = max_occupancy
         self.volume_max = volume_max
 
-    def __str__(self) -> str:
+    def __str__(self):
         """Summary
 
         Returns:
@@ -92,7 +94,7 @@ class Room:
         return f"Name: '{self.name}', UUID: '{self.room_id}', Occupancy: {self.currentOccupancy}/{self.max_occupancy}, Volume: {self.currentVolume}/{self.volume_max} db, Time: {datetime.datetime.now().timestamp():.0f} UTC"
 
     @classmethod
-    def remove_no_errors(self, elm: RoomErrors) -> bool:
+    def remove_no_errors(self, elm: RoomErrors):
         """Summary
 
         Args:
@@ -105,9 +107,7 @@ class Room:
             return True
         return False
 
-    def update_room_status(
-        self, status: RoomStatus, amount: int, volume: int
-    ) -> tuple[float, list[RoomErrors]]:
+    def update_room_status(self, status: RoomStatus, amount: int, volume: int):
         """Summary
 
         Args:
@@ -143,7 +143,7 @@ class Room:
             datetime.datetime.now().timestamp(),
             [RoomErrors.NONE],
         ),
-    ) -> None:
+    ):
         """Summary
 
         Args:
@@ -151,7 +151,7 @@ class Room:
             Defaults to ( datetime.datetime.now().timestamp(), [RoomErrors.NONE], ).
         """
         filename = datetime.datetime.today().strftime("%Hh-%d-%m-%Y-info.csv")
-        fieldnames = ["date", "issue", "uuid", "number"]
+        fieldnames = ["date", "issue", "uuid", "occupancy"]
         header = True
         if isfile(filename):
             with open(filename, mode="r") as csv_file:
@@ -171,11 +171,57 @@ class Room:
                         "date": errors[0],
                         "issue": str(error),
                         "uuid": self.currentOccupants,
-                        "number": self.currentOccupancy,
+                        "occupancy": self.currentOccupancy,
                     }
                 )
 
-    @classmethod
+    def export_to_json(
+        self,
+        errors: tuple[float, list[RoomErrors]] = (
+            datetime.datetime.now().timestamp(),
+            [RoomErrors.NONE],
+        ),
+    ):
+        """Summary
+
+        Args:
+            errors (tuple[float, list[RoomErrors]], optional): [description].
+            Defaults to ( datetime.datetime.now().timestamp(), [RoomErrors.NONE], ).
+        """
+        filename = datetime.datetime.today().strftime("%Hh-%d-%m-%Y-info.json")
+        data = {}
+        if not isfile(filename):
+            with open(filename, mode="w") as json_file:
+                data["uuid"] = self.room_id.__str__()
+                data["name"] = self.name
+                data["occupancy"] = self.max_occupancy
+                data["volume"] = self.volume_max
+                data["errors"] = []
+                for error in errors[1]:
+                    data["errors"].append(
+                        {
+                            "time": errors[0],
+                            "issue": str(error),
+                            "users": self.currentOccupants,
+                            "occupancy": self.currentOccupancy,
+                        }
+                    )
+                json.dump(data, json_file, indent=4)
+        else:
+            with open(filename, mode="r+") as json_file:
+                data = json.loads(json_file.read())
+                for error in errors[1]:
+                    data["errors"].append(
+                        {
+                            "time": errors[0],
+                            "issue": str(error),
+                            "users": self.currentOccupants,
+                            "occupancy": self.currentOccupancy,
+                        }
+                    )
+                json_file.seek(0)
+                json.dump(data, json_file, indent=4)
+
     def get_new_occupants(self, amount: int) -> RoomErrors:
         """Summary
 
@@ -220,6 +266,4 @@ class Room:
 
 
 lol = Room()
-print(lol)
-lol.export_to_csv()
-print(lol)
+lol.export_to_json()
