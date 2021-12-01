@@ -73,10 +73,10 @@ class Room:
     room_id: uuid.UUID
     name: str = ""
     max_occupancy: int = 0
-    currentOccupancy: int = 0
+    current_occupancy: int = 0
     volume_max: int = 0
     current_volume: int = 0
-    currentOccupants: list[str] = []
+    current_occupants: list[str] = []
     supossed_occupants: list[str] = []
 
     def __init__(
@@ -106,7 +106,7 @@ class Room:
             str: [description]
         """
         return f"Name: '{self.name}', UUID: '{self.room_id}', \
-            Occupancy: {self.currentOccupancy}/{self.max_occupancy}, \
+            Occupancy: {self.current_occupancy}/{self.max_occupancy}, \
             Volume: {self.current_volume}/{self.volume_max} db, \
             Time: {datetime.datetime.now().timestamp():.0f} UTC"
 
@@ -175,8 +175,8 @@ class Room:
                     {
                         "date": errors[0],
                         "issue": str(error),
-                        "uuid": self.currentOccupants,
-                        "occupancy": self.currentOccupancy,
+                        "uuid": self.current_occupants,
+                        "occupancy": self.current_occupancy,
                     }
                 )
 
@@ -194,21 +194,23 @@ class Room:
             Defaults to ( datetime.datetime.now().timestamp(), [RoomErrors.NONE], ).
         """
         filename = datetime.datetime.today().strftime("%Hh-%d-%m-%Y-info.json")
-        data = {"uuid": "", "name": "", "occupancy": 0, "volume": 0, "errors": []}
         error_list: list[object] = []
         if not isfile(filename):
             with open(filename, mode="w") as json_file:
-                data["uuid"] = self.room_id.__str__()
-                data["name"] = self.name
-                data["occupancy"] = self.max_occupancy
-                data["volume"] = self.volume_max
+                data = {
+                    "uuid": self.room_id.__str__(),
+                    "name": self.name,
+                    "occupancy": self.max_occupancy,
+                    "volume": self.volume_max,
+                    "errors": [],
+                }
                 for error in errors[1]:
                     error_list.append(
                         {
                             "time": errors[0],
                             "issue": str(error),
-                            "users": self.currentOccupants,
-                            "occupancy": self.currentOccupancy,
+                            "users": self.current_occupants,
+                            "occupancy": self.current_occupancy,
                         }
                     )
                 data["errors"] = error_list
@@ -216,13 +218,14 @@ class Room:
         else:
             with open(filename, mode="r+") as json_file:
                 data = json.loads(json_file.read())
+                error_list = data["errors"]
                 for error in errors[1]:
                     error_list.append(
                         {
                             "time": errors[0],
                             "issue": str(error),
-                            "users": self.currentOccupants,
-                            "occupancy": self.currentOccupancy,
+                            "users": self.current_occupants,
+                            "occupancy": self.current_occupancy,
                         }
                     )
                 data["errors"] = error_list
@@ -241,10 +244,10 @@ class Room:
         # UPDATE AMOUNT
         occupants: list[str] = []
         # UPDATE AMOUNT ENDED
-        self.currentOccupants.extend(occupants)
+        self.current_occupants.extend(occupants)
         if len(occupants) != amount:
             return (RoomErrors.TOO_MANY, RoomErrors.TOO_LITTLE)[
-                amount > self.currentOccupancy
+                amount > self.current_occupancy
             ]
         return RoomErrors.NONE
 
@@ -261,9 +264,9 @@ class Room:
             RoomErrors: [description]
         """
         value = RoomErrors.NONE
-        if self.currentOccupancy > self.max_occupancy:
+        if self.current_occupancy > self.max_occupancy:
             value = RoomErrors.TOO_MANY
-        elif self.currentOccupancy < 0:
+        elif self.current_occupancy < 0:
             value = RoomErrors.TOO_LITTLE
         elif self.current_volume > self.volume_max:
             value = RoomErrors.TOO_LOUD
