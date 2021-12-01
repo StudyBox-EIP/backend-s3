@@ -1,15 +1,15 @@
 """Info fo room"""
 import csv
-from os import error
+import json
 import uuid
 import datetime
-import json
 from os.path import isfile
 from enum import Enum
 
 
 class RoomErrors(Enum):
-    """Summary
+    """
+    Summary
 
     Args:
         Enum ([type]): [description]
@@ -27,7 +27,7 @@ class RoomErrors(Enum):
         "FRAUD: There is a negative amount of people (Might be an intruder)",
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Summary
 
         Returns:
@@ -49,6 +49,20 @@ class RoomStatus(Enum):
     REMOVE_PEOPLE = 1
 
 
+def remove_no_errors(elm: RoomErrors) -> bool:
+    """Summary
+
+    Args:
+        elm (RoomErrors): [description]
+
+    Returns:
+        bool: [description]
+    """
+    if elm.value[0] == 0:
+        return True
+    return False
+
+
 class Room:
     """Summary
 
@@ -61,9 +75,9 @@ class Room:
     max_occupancy: int = 0
     currentOccupancy: int = 0
     volume_max: int = 0
-    currentVolume: int = 0
+    current_volume: int = 0
     currentOccupants: list[str] = []
-    supossedOccupants: list[str] = []
+    supossed_occupants: list[str] = []
 
     def __init__(
         self,
@@ -85,29 +99,20 @@ class Room:
         self.max_occupancy = max_occupancy
         self.volume_max = volume_max
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Summary
 
         Returns:
             str: [description]
         """
-        return f"Name: '{self.name}', UUID: '{self.room_id}', Occupancy: {self.currentOccupancy}/{self.max_occupancy}, Volume: {self.currentVolume}/{self.volume_max} db, Time: {datetime.datetime.now().timestamp():.0f} UTC"
+        return f"Name: '{self.name}', UUID: '{self.room_id}', \
+            Occupancy: {self.currentOccupancy}/{self.max_occupancy}, \
+            Volume: {self.current_volume}/{self.volume_max} db, \
+            Time: {datetime.datetime.now().timestamp():.0f} UTC"
 
-    @classmethod
-    def remove_no_errors(self, elm: RoomErrors):
-        """Summary
-
-        Args:
-            elm (RoomErrors): [description]
-
-        Returns:
-            bool: [description]
-        """
-        if elm.value[0] == 0:
-            return True
-        return False
-
-    def update_room_status(self, status: RoomStatus, amount: int, volume: int):
+    def update_room_status(
+        self, status: RoomStatus, amount: int, volume: int
+    ) -> tuple[float, list[RoomErrors]]:
         """Summary
 
         Args:
@@ -125,7 +130,7 @@ class Room:
         )
         list_errors = []
 
-        self.currentVolume = volume
+        self.current_volume = volume
         if status == RoomStatus.ADD_PEOPLE:
             list_errors.append(self.get_new_occupants(amount))
         elif status == RoomStatus.REMOVE_PEOPLE:
@@ -133,7 +138,7 @@ class Room:
         else:
             list_errors.append(RoomErrors.UNKNOWN)
         list_errors.append(self.get_room_status())
-        filter(self.remove_no_errors, list_errors)
+        filter(remove_no_errors, list_errors)
         errors[1].extend(list_errors)
         return errors
 
@@ -143,7 +148,7 @@ class Room:
             datetime.datetime.now().timestamp(),
             [RoomErrors.NONE],
         ),
-    ):
+    ) -> None:
         """Summary
 
         Args:
@@ -157,8 +162,8 @@ class Room:
             with open(filename, mode="r") as csv_file:
                 if csv_file.readable():
                     csv_reader = csv.reader(csv_file, delimiter=",")
-                    firstLine = next(csv_reader)
-                    if firstLine == fieldnames:
+                    first_line = next(csv_reader)
+                    if first_line == fieldnames:
                         header = False
         with open(filename, mode="a") as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -181,7 +186,7 @@ class Room:
             datetime.datetime.now().timestamp(),
             [RoomErrors.NONE],
         ),
-    ):
+    ) -> None:
         """Summary
 
         Args:
@@ -189,16 +194,16 @@ class Room:
             Defaults to ( datetime.datetime.now().timestamp(), [RoomErrors.NONE], ).
         """
         filename = datetime.datetime.today().strftime("%Hh-%d-%m-%Y-info.json")
-        data = {}
+        data = {"uuid": "", "name": "", "occupancy": 0, "volume": 0, "errors": []}
+        error_list: list[object] = []
         if not isfile(filename):
             with open(filename, mode="w") as json_file:
                 data["uuid"] = self.room_id.__str__()
                 data["name"] = self.name
                 data["occupancy"] = self.max_occupancy
                 data["volume"] = self.volume_max
-                data["errors"] = []
                 for error in errors[1]:
-                    data["errors"].append(
+                    error_list.append(
                         {
                             "time": errors[0],
                             "issue": str(error),
@@ -206,12 +211,13 @@ class Room:
                             "occupancy": self.currentOccupancy,
                         }
                     )
+                data["errors"] = error_list
                 json.dump(data, json_file, indent=4)
         else:
             with open(filename, mode="r+") as json_file:
                 data = json.loads(json_file.read())
                 for error in errors[1]:
-                    data["errors"].append(
+                    error_list.append(
                         {
                             "time": errors[0],
                             "issue": str(error),
@@ -219,6 +225,7 @@ class Room:
                             "occupancy": self.currentOccupancy,
                         }
                     )
+                data["errors"] = error_list
                 json_file.seek(0)
                 json.dump(data, json_file, indent=4)
 
@@ -241,14 +248,12 @@ class Room:
             ]
         return RoomErrors.NONE
 
-    @classmethod
     def get_supposed_occupants(self) -> None:
         """Summary"""
         # UPDATE AMOUNT
-        self.supossedOccupants = []
+        self.supossed_occupants = []
         # UPDATE AMOUNT ENDED
 
-    @classmethod
     def get_room_status(self) -> RoomErrors:
         """Summary
 
@@ -260,7 +265,7 @@ class Room:
             value = RoomErrors.TOO_MANY
         elif self.currentOccupancy < 0:
             value = RoomErrors.TOO_LITTLE
-        elif self.currentVolume > self.volume_max:
+        elif self.current_volume > self.volume_max:
             value = RoomErrors.TOO_LOUD
         return value
 
