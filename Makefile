@@ -33,6 +33,8 @@ fclean: clean
 	$(RM) .mypy_cache
 	$(RM) .pytest_cache
 	$(RM) **/**/__pycache__
+	$(RM) *.json
+	$(RM) *.csv
 
 # Downaload dependency & makes binary after fclean
 re: fclean all

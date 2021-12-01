@@ -21,12 +21,19 @@ def check_pedestrian(wait_time: int = 0, show: bool = True) -> int:
         (rects, _) = hog.detectMultiScale(
             image, winStride=(4, 4), padding=(8, 8), scale=1.05
         )
-        for (x, y, w, h) in rects:
-            cv.rectangle(orig, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        rects = np.array([[x, y, x + w, y + h] for (x, y, w, h) in rects])
+        for (pos_x, pos_y, width, height) in rects:
+            cv.rectangle(
+                orig, (pos_x, pos_y), (pos_x + width, pos_y + height), (0, 0, 255), 2
+            )
+        rects = np.array(
+            [
+                [pos_x, pos_y, pos_x + width, pos_y + height]
+                for (pos_x, pos_y, width, height) in rects
+            ]
+        )
         pick = non_max_suppression(rects, probs=None, overlapThresh=0.65)
-        for (xA, yA, xB, yB) in pick:
-            cv.rectangle(image, (xA, yA), (xB, yB), (0, 255, 0), 2)
+        for (x_a, y_a, x_b, y_b) in pick:
+            cv.rectangle(image, (x_a, y_a), (x_b, y_b), (0, 255, 0), 2)
         filename = image_path[image_path.rfind("/") + 1 :]
         print(
             f"[INFO] {filename}: {len(rects)} boite d'origne, {len(pick)} apres correction"

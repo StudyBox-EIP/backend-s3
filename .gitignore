@@ -167,4 +167,8 @@ Camera
 assets/pictures/
 assets/videos/
 
+# File generated
+*.json
+*.csv
+
 # End of https://www.toptal.com/developers/gitignore/api/python,opencv
