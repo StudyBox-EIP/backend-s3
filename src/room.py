@@ -271,7 +271,3 @@ class Room:
         elif self.current_volume > self.volume_max:
             value = RoomErrors.TOO_LOUD
         return value
-
-
-lol = Room()
-lol.export_to_json()
