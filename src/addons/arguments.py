@@ -12,8 +12,8 @@ DEFAULT_VIDEO = "assets/videos/rabbit.mp4"
 VIDEO_FORMAT = [".mp4", ".m4a"]
 
 # Adress of studybox
-DEV_API = "https://dev.api.studybox.fr/"
-PROD_API = "https://api.studybox.fr/"
+DEV_API = "https://dev.api.studybox.fr"
+PROD_API = "https://api.studybox.fr"
 
 
 def parse_arguments(arguments: List[str]) -> Tuple[str, str, str]:

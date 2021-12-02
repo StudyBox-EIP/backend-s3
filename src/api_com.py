@@ -2,9 +2,9 @@
 import requests
 
 ROUTES = {
-    "exist": {"link": "", "func": requests.get},
-    "get_room": {"link": "rooms", "func": requests.get},
-    "post_abus": {"link": "base", "func": requests.get},
+    "exist": ("/", requests.get),
+    "get_room": ("/rooms", requests.get),
+    "post_abus": ("/base", requests.get),
 }
 
 
@@ -19,11 +19,12 @@ def get_code(adress: str, route: str = "exist", display: bool = False) -> int:
     Returns:
         int: returns the first digit of the status code or 84 in case of unknown code
     """
-    func = ROUTES[route]["func"]
-    link = adress + str(ROUTES[route]["link"])
+    func = ROUTES[route][1]
+    link = adress + str(ROUTES[route][0])
     response = func(link)
 
     if display:
+        print(link)
         print(response.json())
 
     if response.status_code >= 500:
