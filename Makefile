@@ -14,7 +14,7 @@ FORMATER	=	black
 
 TEST	=	pytest -v --no-header
 
-TYPE	=	mypy --strict --ignore-missing-imports --allow-untyped-globals
+TYPE	=	mypy --pretty --strict --ignore-missing-imports --allow-untyped-globals
 
 QUALITY	=	pylint -rn --fail-under=7.5
 
