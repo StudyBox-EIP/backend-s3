@@ -13,6 +13,7 @@ Current advancement on Sprint:
   - [Table of Content](#table-of-content)
   - [Quality Insurance](#quality-insurance)
   - [Installation](#installation)
+    - [Download Test Videos and Images](#download-test-videos-and-images)
   - [Program Usage](#program-usage)
 - [Program](#program)
   - [Keybindings](#keybindings)
@@ -48,20 +49,37 @@ and to excute it you'll need to use:
 python src/__main__.py
 ```
 
+### Download Test Videos and Images
+
+Because of Github you need to download the videos dirrectly from a server.
+To acces it you need to ask **Nathan MOIGNARD** so he can add your ssh-key and make you able to access the server and download the videos and images.
+
+To download those file you can use:
+```shell
+make assets
+```
+or you can directly use the script called `download.sh` at the root of the project.
+
 ## Program Usage
 
 **usage**:
 
-- Camera [-h] [-f FILE] {cam,vid,img}
+- Camera [-h] [-f FILE] [-d] {cam,vid,img,api,room}
 
 **positional arguments**:
 
-- {cam,vid,img}: `this is the type of use wanted for the program`
+- {cam,vid,img,api,room}: `this is the type of use wanted for the program`
+  - cam: `Activates the first camera of the computer and displays it.`
+  - vid: `Displays the video set in the line of command.`
+  - img: `Displays the image set in the line of command.`
+  - api: `Makes basic API call and tries to send data`
+  - room: `Generates a basic room and generates a JSON`
 
 **positional arguments**:
 
 - -h, --help: `show this help message and exit`
 - -f FILE, --file FILE: `this is the video used by the 'vid' type`
+- -d, --dev: `Displays the video set in the line of command`
 
 # Program
 
