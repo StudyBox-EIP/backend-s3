@@ -9,7 +9,7 @@ ROUTES = {
 
 
 def get_code(adress: str, route: str = "exist", display: bool = False) -> int:
-    """[summary]
+    """This function returns the code status of the request asked.
 
     Args:
         adress (str): is the adress of the website
