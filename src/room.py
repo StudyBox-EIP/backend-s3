@@ -5,6 +5,7 @@ import uuid
 import datetime
 from os.path import isfile
 from enum import Enum
+from typing import Any
 
 
 class RoomErrors(Enum):
@@ -194,7 +195,7 @@ class Room:
             Defaults to ( datetime.datetime.now().timestamp(), [RoomErrors.NONE], ).
         """
         filename = datetime.datetime.today().strftime("%Hh-%d-%m-%Y-info.json")
-        error_list: list[object] = []
+        error_list: Any = []
         if not isfile(filename):
             with open(filename, mode="w") as json_file:
                 data = {
@@ -271,7 +272,3 @@ class Room:
         elif self.current_volume > self.volume_max:
             value = RoomErrors.TOO_LOUD
         return value
-
-
-lol = Room()
-lol.export_to_json()

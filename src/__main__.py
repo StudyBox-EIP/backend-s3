@@ -5,6 +5,8 @@ from video.cam import camera
 from video.vid import video
 from check_pictures import check_pedestrian
 from addons.arguments import treat_arguments
+from room import Room
+from api_com import get_code
 
 
 def main() -> int:
@@ -16,8 +18,15 @@ def main() -> int:
         rtn_value = video(elm[1])
     elif elm[0] == "cam":
         rtn_value = camera()
-    else:
+    elif elm[0] == "img":
         rtn_value = check_pedestrian()
+    elif elm[0] == "room":
+        room = Room()
+        room.export_to_json()
+    elif elm[0] == "api":
+        return get_code(elm[2], display=True)
+    else:
+        pass
     return rtn_value
 
 
