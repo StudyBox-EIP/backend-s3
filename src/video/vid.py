@@ -8,10 +8,11 @@ def video(path: str, show: bool = True) -> int:
     This is not final and might be cut later.
     """
     cap = cv.VideoCapture(path)
-    rt_value = 84
+    rt_value = 0
 
-    if cap.isOpened():
-        rt_value = 0
+    if not cap.isOpened():
+        print("Cannot open video")
+        rt_value = 84
     while cap.isOpened():
         ret, frame = cap.read()
         # if frame is read correctly ret is True
