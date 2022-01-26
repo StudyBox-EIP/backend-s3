@@ -4,7 +4,7 @@ SOURCE_FOLDER	=	src/
 
 TEST_FOLDER	=	tests/
 
-MAIN	=	$(SOURCE_FOLDER)__main__.py
+MAIN	=	$(SOURCE_FOLDER)main.py
 
 RM	=	rm -fr
 
