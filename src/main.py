@@ -27,7 +27,7 @@ def main() -> int:
         room = Room()
         room.export_to_json()
     elif elm[0] == "api":
-        return get_code(elm[2], display=True)
+        rtn_value = get_code(elm[2], display=True)
     else:
         pass
     return rtn_value
