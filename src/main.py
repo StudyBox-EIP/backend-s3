@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Main of the Program."""
 import sys
-from img.video import video_flux
-from img.picture import check_pedestrian
+from content.video import video_flux
+from content.picture import check_pedestrian
 from addons.arguments import treat_arguments
 from room import Room
 from api_com import get_code

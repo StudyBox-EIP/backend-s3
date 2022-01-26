@@ -1,7 +1,7 @@
 """Video mode of the program."""
 from typing import Union
 import cv2 as cv
-from img.detect import detect_pedestrian
+from .detect import detect_pedestrian
 
 
 def video_flux(path: Union[str, int], show: bool = True) -> int:

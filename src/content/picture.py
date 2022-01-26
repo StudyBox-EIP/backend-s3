@@ -1,7 +1,7 @@
 """Picture mode of the program."""
 from imutils import paths
 import cv2 as cv
-from img.detect import detect_pedestrian
+from .detect import detect_pedestrian
 
 
 def check_pedestrian(wait_time: int = 0, show: bool = True) -> int:
