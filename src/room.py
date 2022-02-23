@@ -1,7 +1,6 @@
 """Info fo room"""
 import csv
 import json
-import pwd
 import uuid
 import datetime
 from os.path import isfile

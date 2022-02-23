@@ -1,5 +1,4 @@
 """Gets the input for the program."""
-from ast import arg
 from typing import Tuple, List
 from argparse import ArgumentParser, ArgumentError
 from os.path import isfile
@@ -86,9 +85,9 @@ def treat_arguments(args: List[str]) -> Tuple[str, str, str, str, bool]:
             print("This file is not in an accepted format.", file=sys.stderr)
             print(f"The accepted format are : {VIDEO_FORMAT}", file=sys.stderr)
             sys.exit(84)
-    if parse[0] == "room" and parse[3] == None and not parse[4]:
+    if parse[0] == "room" and parse[3] is None and not parse[4]:
         print("Adress given is not a file or doesn't exist.", file=sys.stderr)
         sys.exit(84)
-    if parse[3] == None:
+    if parse[3] is None:
         return (parse[0], parse[1], parse[2], DEFAULT_CONFIG_FILE, parse[4])
     return (parse[0], parse[1], parse[2], parse[3], parse[4])
