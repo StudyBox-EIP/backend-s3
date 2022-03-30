@@ -25,6 +25,11 @@ def main() -> int:
         rtn_value = check_pedestrian()
     elif elm[0] == "room":
         room = Room()
+        if elm[4]:
+            room.config_generate(elm[3] + ".json")
+        else:
+            room.config_load(elm[3] + ".json")
+        print(room)
         room.export_to_json()
     elif elm[0] == "api":
         rtn_value = get_code(elm[2], display=True)

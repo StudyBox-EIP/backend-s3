@@ -23,11 +23,29 @@ def test_parse_flag_file_empty() -> None:
 
 def test_parse_normal() -> None:
     elm = parse_arguments(["vid", "-f", "assets/videos/rabbit.mp4"])
-    assert elm == ("vid", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "vid",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        None,
+        False,
+    )
     elm = parse_arguments(["img"])
-    assert elm == ("img", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "img",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        None,
+        False,
+    )
     elm = parse_arguments(["cam"])
-    assert elm == ("cam", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "cam",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        None,
+        False,
+    )
 
 
 def test_treat_empty() -> None:
@@ -62,8 +80,26 @@ def test_treat_flag_file_wrong_type() -> None:
 
 def test_treat_normal() -> None:
     elm = treat_arguments(["./Camera", "vid", "-f", "assets/videos/rabbit.mp4"])
-    assert elm == ("vid", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "vid",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        "config",
+        False,
+    )
     elm = treat_arguments(["./Camera", "img"])
-    assert elm == ("img", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "img",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        "config",
+        False,
+    )
     elm = treat_arguments(["./Camera", "cam"])
-    assert elm == ("cam", "assets/videos/rabbit.mp4", "https://api.studybox.fr")
+    assert elm == (
+        "cam",
+        "assets/videos/rabbit.mp4",
+        "https://api.studybox.fr",
+        "config",
+        False,
+    )

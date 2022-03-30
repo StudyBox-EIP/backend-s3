@@ -3,9 +3,12 @@ import csv
 import json
 import uuid
 import datetime
+from zlib import compress, decompress
 from os.path import isfile
+from os import getcwd
 from enum import Enum
 from typing import Any
+from sys import stderr
 
 
 class RoomErrors(Enum):
@@ -23,10 +26,7 @@ class RoomErrors(Enum):
     UNKNOWN = (1, "ISSUE: There is an issue with the Room")
     TOO_LOUD = (2, "ISSUE: Room as too much noise")
     TOO_MANY = (3, "FRAUD: There is currently too many people in the room")
-    TOO_LITTLE = (
-        4,
-        "FRAUD: There is a negative amount of people (Might be an intruder)",
-    )
+    TOO_LTL = (4, "FRAUD: There is a negative amount of people (Intruder)")
 
     def __str__(self) -> str:
         """Summary
@@ -51,7 +51,8 @@ class RoomStatus(Enum):
 
 
 def remove_no_errors(elm: RoomErrors) -> bool:
-    """Summary
+    """
+    Summary
 
     Args:
         elm (RoomErrors): [description]
@@ -65,17 +66,13 @@ def remove_no_errors(elm: RoomErrors) -> bool:
 
 
 class Room:
-    """Summary
-
-    Returns:
-        [type]: [description]
-    """
+    """_summary_"""
 
     room_id: uuid.UUID
     name: str = ""
     max_occupancy: int = 0
     current_occupancy: int = 0
-    volume_max: int = 0
+    max_volume: int = 0
     current_volume: int = 0
     current_occupants: list[str] = []
     supossed_occupants: list[str] = []
@@ -85,7 +82,7 @@ class Room:
         name: str = "Unnamed",
         max_occupancy: int = 1,
         room_id: uuid.UUID = uuid.uuid4(),
-        volume_max: int = 70,
+        max_volume: int = 70,
     ):
         """Summary
 
@@ -93,23 +90,55 @@ class Room:
             name (str, optional): [description]. Defaults to "Unnamed".
             max_occupancy (int, optional): [description]. Defaults to 1.
             room_id ([type], optional): [description]. Defaults to uuid.uuid4().
-            volume_max (int, optional): [description]. Defaults to 70.
+            max_volume (int, optional): [description]. Defaults to 70.
         """
         self.name = name
         self.room_id = room_id
         self.max_occupancy = max_occupancy
-        self.volume_max = volume_max
+        self.max_volume = max_volume
 
     def __str__(self) -> str:
-        """Summary
+        """Summary.
 
         Returns:
             str: [description]
         """
         return f"Name: '{self.name}', UUID: '{self.room_id}', \
             Occupancy: {self.current_occupancy}/{self.max_occupancy}, \
-            Volume: {self.current_volume}/{self.volume_max} db, \
+            Volume: {self.current_volume}/{self.max_volume} db, \
             Time: {datetime.datetime.now().timestamp():.0f} UTC"
+
+    def config_generate(self, filename: str = "config.json") -> None:
+        """_summary_
+
+        Args:
+            file (str, optional): _description_. Defaults to "config.json".
+        """
+        with open(filename, mode="w") as json_file:
+            data = {
+                "uuid": self.room_id.__str__(),
+                "name": self.name,
+                "volume": self.max_volume,
+                "occupancy": self.max_occupancy,
+            }
+            json.dump(data, json_file, indent=4)
+            print(f'Configuration file created at "{getcwd() + "/" + filename}"')
+
+    def config_load(self, filename: str = "config.json") -> None:
+        """_summary_
+
+        Args:
+            file (str, optional): _description_. Defaults to "config.json".
+        """
+        if not isfile(filename):
+            print("You don't have a configuration file yet.", file=stderr)
+            return
+        with open(filename, mode="r+") as json_file:
+            data = json.loads(json_file.read())
+            self.room_id = data["uuid"]
+            self.name = data["name"]
+            self.max_volume = data["volume"]
+            self.max_occupancy = data["occupancy"]
 
     def update_room_status(
         self, status: RoomStatus, amount: int, volume: int
@@ -202,7 +231,7 @@ class Room:
                     "uuid": self.room_id.__str__(),
                     "name": self.name,
                     "occupancy": self.max_occupancy,
-                    "volume": self.volume_max,
+                    "volume": self.max_volume,
                     "errors": [],
                 }
                 for error in errors[1]:
@@ -247,7 +276,7 @@ class Room:
         # UPDATE AMOUNT ENDED
         self.current_occupants.extend(occupants)
         if len(occupants) != amount:
-            return (RoomErrors.TOO_MANY, RoomErrors.TOO_LITTLE)[
+            return (RoomErrors.TOO_MANY, RoomErrors.TOO_LTL)[
                 amount > self.current_occupancy
             ]
         return RoomErrors.NONE
@@ -268,7 +297,7 @@ class Room:
         if self.current_occupancy > self.max_occupancy:
             value = RoomErrors.TOO_MANY
         elif self.current_occupancy < 0:
-            value = RoomErrors.TOO_LITTLE
-        elif self.current_volume > self.volume_max:
+            value = RoomErrors.TOO_LTL
+        elif self.current_volume > self.max_volume:
             value = RoomErrors.TOO_LOUD
         return value
