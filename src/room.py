@@ -140,40 +140,6 @@ class Room:
             self.max_volume = data["volume"]
             self.max_occupancy = data["occupancy"]
 
-    def config_compress_generate(self, filename: str = "config.txt") -> None:
-        """_summary_
-
-        Args:
-            file (str, optional): _description_. Defaults to "config.json".
-        """
-        with open(filename, mode="w") as json_file:
-            data = {
-                "uuid": str(self.room_id),
-                "name": self.name,
-                "volume": self.max_volume,
-                "occupancy": self.max_occupancy,
-            }
-            json_file.write(str(compress(str(data).encode())))
-            print(
-                f'Compressed configuration file created at "{getcwd() + "/" + filename}"'
-            )
-
-    def config_compress_load(self, filename: str = "config.txt") -> None:
-        """_summary_
-
-        Args:
-            file (str, optional): _description_. Defaults to "config.json".
-        """
-        if not isfile(filename):
-            print("You don't have a configuration file yet.", file=stderr)
-            return
-        with open(filename, mode="r+") as json_file:
-            data = json.loads(decompress(json_file.read()).decode())
-            self.room_id = data["uuid"]
-            self.name = data["name"]
-            self.max_volume = data["volume"]
-            self.max_occupancy = data["occupancy"]
-
     def update_room_status(
         self, status: RoomStatus, amount: int, volume: int
     ) -> tuple[float, list[RoomErrors]]:

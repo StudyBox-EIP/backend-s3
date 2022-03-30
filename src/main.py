@@ -27,10 +27,8 @@ def main() -> int:
         room = Room()
         if elm[4]:
             room.config_generate(elm[3] + ".json")
-            # room.config_compress_generate(elm[3] + ".txt")
         else:
             room.config_load(elm[3] + ".json")
-            # room.config_compress_load(elm[3] + ".txt")
         print(room)
         room.export_to_json()
     elif elm[0] == "api":
