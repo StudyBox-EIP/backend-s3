@@ -3,6 +3,7 @@ import csv
 import json
 import uuid
 import datetime
+from zlib import compress, decompress
 from os.path import isfile
 from os import getcwd
 from enum import Enum
@@ -25,10 +26,7 @@ class RoomErrors(Enum):
     UNKNOWN = (1, "ISSUE: There is an issue with the Room")
     TOO_LOUD = (2, "ISSUE: Room as too much noise")
     TOO_MANY = (3, "FRAUD: There is currently too many people in the room")
-    TOO_LITTLE = (
-        4,
-        "FRAUD: There is a negative amount of people (Might be an intruder)",
-    )
+    TOO_LTL = (4, "FRAUD: There is a negative amount of people (Intruder)")
 
     def __str__(self) -> str:
         """Summary
@@ -53,7 +51,8 @@ class RoomStatus(Enum):
 
 
 def remove_no_errors(elm: RoomErrors) -> bool:
-    """Summary
+    """
+    Summary
 
     Args:
         elm (RoomErrors): [description]
@@ -67,11 +66,7 @@ def remove_no_errors(elm: RoomErrors) -> bool:
 
 
 class Room:
-    """Summary
-
-    Returns:
-        [type]: [description]
-    """
+    """_summary_"""
 
     room_id: uuid.UUID
     name: str = ""
@@ -103,7 +98,7 @@ class Room:
         self.max_volume = max_volume
 
     def __str__(self) -> str:
-        """Summary
+        """Summary.
 
         Returns:
             str: [description]
@@ -140,6 +135,40 @@ class Room:
             return
         with open(filename, mode="r+") as json_file:
             data = json.loads(json_file.read())
+            self.room_id = data["uuid"]
+            self.name = data["name"]
+            self.max_volume = data["volume"]
+            self.max_occupancy = data["occupancy"]
+
+    def config_compress_generate(self, filename: str = "config.txt") -> None:
+        """_summary_
+
+        Args:
+            file (str, optional): _description_. Defaults to "config.json".
+        """
+        with open(filename, mode="w") as json_file:
+            data = {
+                "uuid": str(self.room_id),
+                "name": self.name,
+                "volume": self.max_volume,
+                "occupancy": self.max_occupancy,
+            }
+            json_file.write(str(compress(str(data).encode())))
+            print(
+                f'Compressed configuration file created at "{getcwd() + "/" + filename}"'
+            )
+
+    def config_compress_load(self, filename: str = "config.txt") -> None:
+        """_summary_
+
+        Args:
+            file (str, optional): _description_. Defaults to "config.json".
+        """
+        if not isfile(filename):
+            print("You don't have a configuration file yet.", file=stderr)
+            return
+        with open(filename, mode="r+") as json_file:
+            data = json.loads(decompress(json_file.read()).decode())
             self.room_id = data["uuid"]
             self.name = data["name"]
             self.max_volume = data["volume"]
@@ -281,7 +310,7 @@ class Room:
         # UPDATE AMOUNT ENDED
         self.current_occupants.extend(occupants)
         if len(occupants) != amount:
-            return (RoomErrors.TOO_MANY, RoomErrors.TOO_LITTLE)[
+            return (RoomErrors.TOO_MANY, RoomErrors.TOO_LTL)[
                 amount > self.current_occupancy
             ]
         return RoomErrors.NONE
@@ -302,7 +331,7 @@ class Room:
         if self.current_occupancy > self.max_occupancy:
             value = RoomErrors.TOO_MANY
         elif self.current_occupancy < 0:
-            value = RoomErrors.TOO_LITTLE
+            value = RoomErrors.TOO_LTL
         elif self.current_volume > self.max_volume:
             value = RoomErrors.TOO_LOUD
         return value

@@ -168,6 +168,7 @@ assets/pictures/
 assets/videos/
 
 # File generated
+*.txt
 *.json
 *.csv
 

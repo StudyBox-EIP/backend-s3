@@ -16,7 +16,7 @@ DEV_API = "https://dev.api.studybox.fr"
 PROD_API = "https://api.studybox.fr"
 
 #
-DEFAULT_CONFIG_FILE = "config.json"
+DEFAULT_CONFIG_FILE = "config"
 
 
 def parse_arguments(arguments: List[str]) -> Tuple[str, str, str, str, bool]:
