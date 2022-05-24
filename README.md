@@ -5,7 +5,7 @@ This used to use git annex and some commits have been imparted by it.
 
 Current advancement on Sprint:
 
-![Advancements](https://progress-bar.dev/38/?scale=100&width=200&title=Done)
+![Advancements](https://progress-bar.dev/100/?scale=100&width=200&title=Done)
 
 ## Table of Content
 
