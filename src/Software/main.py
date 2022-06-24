@@ -32,7 +32,7 @@ def main() -> int:
         print(room)
         room.export_to_json()
     elif elm[0] == "api":
-        rtn_value = get_code(elm[2], display=True)
+        rtn_value = get_code(elm[2], "", "get_rooms", display=True)
     else:
         pass
     return rtn_value
