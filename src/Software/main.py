@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Main of the Program."""
 import sys
+from time import sleep
 from content.video import video_flux
 from content.picture import check_pedestrian
 from addons.arguments import treat_arguments
@@ -34,9 +35,14 @@ def main() -> int:
     elif elm[0] == "api":
         room = Room()
         room.config_load()
-        # rtn_value = get_code(elm[2], "", "get_rooms", display=True)
-        # rtn_value = register(elm[2], room.get_uuid(), name=room.get_name(), display=True)
-        rtn_value = report(elm[2], room.get_uuid(), room.get_room_status(), display=True)
+        rtn_value = get_code(elm[2], "", "get_rooms", display=True)
+        rtn_value = register(elm[2], room.get_uuid(), name=room.get_name(), display=True)
+        maxi = 10
+        timer = 3
+        while maxi:
+            rtn_value = report(elm[2], room.get_uuid(), room.get_room_status(), display=True)
+            sleep(timer)
+            maxi -= 1
     else:
         pass
     return rtn_value

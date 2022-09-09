@@ -102,8 +102,10 @@ def register(
     """
     func = ROUTES[route][0]
     link = adress + fuse_route(route, room_id)
-    response = func(link, data={"room_id": room_id, "name": name, "volume": volume})
+    data = {"room_id": room_id, "name": name, "volume": volume}
+    response = func(link, data=data)
     if display:
+        print(f"Data: {data}")
         print(link)
         print(response.json())
     return handle_answer(response)
@@ -130,10 +132,9 @@ def report(
     """
     func = ROUTES[route][0]
     link = adress + fuse_route(route, room_id)
-    print(issue)
     issue = {
         "id": 0,
-        "date": datetime.now(),
+        "date": datetime.now().timestamp(),
         "desc": issue,
         "type": 0,
         "camera_id": room_id,
@@ -142,6 +143,7 @@ def report(
     # {"date": , "desc": , "report_type_id": }
     response = func(link, data=issue)
     if display:
+        print(f"Data: {issue}")
         print(link)
         print(response.json())
     return handle_answer(response)
