@@ -1,5 +1,5 @@
 from sys import stderr
-from src.addons.arguments import parse_arguments, treat_arguments
+from src.Software.addons.arguments import parse_arguments, treat_arguments
 import pytest
 
 

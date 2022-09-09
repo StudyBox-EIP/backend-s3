@@ -301,3 +301,9 @@ class Room:
         elif self.current_volume > self.max_volume:
             value = RoomErrors.TOO_LOUD
         return value
+
+    def get_name(self):
+        return self.name
+
+    def get_uuid(self):
+        return self.room_id

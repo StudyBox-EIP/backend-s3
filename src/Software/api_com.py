@@ -1,13 +1,14 @@
 """Communicate with the server"""
+from datetime import datetime
 import requests
 
-AUTH = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzdHVkeWJveC5mciIsInBob25lIjpudWxsLCJyb2xlIjoiU3VwZXJBZG1pbiIsImZpcnN0X25hbWUiOm51bGwsImxhc3RfbmFtZSI6bnVsbCwiYWdlIjpudWxsLCJwcm9tbyI6bnVsbCwiY29ubmVjdGVkIjpmYWxzZSwiaW5zdGl0dXRpb25faWQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDYtMjNUMTE6MTM6MjAuMzM0WiIsInVwZGF0ZWRBdCI6IjIwMjItMDYtMjNUMTE6MTM6MjAuMzM0WiIsImlhdCI6MTY1NjAxMzc3OCwiZXhwIjoxNjU2NjE4NTc4fQ.6PnKNvMgwh9GLmy0ZBEHqeWjQOFdntW84Br99qm7zo0"
+AUTH = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzdHVkeWJveC5mciIsInBob25lIjpudWxsLCJyb2xlIjoiU3VwZXJBZG1pbiIsImZpcnN0X25hbWUiOm51bGwsImxhc3RfbmFtZSI6bnVsbCwiYWdlIjpudWxsLCJwcm9tbyI6bnVsbCwiY29ubmVjdGVkIjpmYWxzZSwiaW5zdGl0dXRpb25faWQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDgtMjJUMTY6MDk6MDIuNzU0WiIsInVwZGF0ZWRBdCI6IjIwMjItMDgtMjJUMTY6MDk6MDIuNzU0WiIsImlhdCI6MTY2MjY5OTAxOCwiZXhwIjoxNjYzMzAzODE4fQ.RZ4wsRZyrV-byIlSi_Zh_sJKqVseylvHIN4On_z2bLg"
 
 ROUTES = {
     "exist": (requests.get, "/"),
     "get_rooms": (requests.get, "/rooms"),
     "current_room": (requests.get, "/camera/", "%ID", "/room"),
-    "register": (requests.post, "/camera/register"),
+    "register": (requests.post, "/cameras/", "%ID"),
     "report": (requests.post, "/report_auto/", "%ID"),
 }
 
@@ -45,13 +46,15 @@ def fuse_route(route: str, room_id: str):
         route (str): _description_
     """
     res = ""
-    for k in ROUTES[route][1:]:
-        if k == "#ID":
-            res += room_id
-        else:
-            res += k
-    return res
-
+    try:
+        for k in ROUTES[route][1:]:
+            if k == "%ID":
+                res += room_id
+            else:
+                res += k
+        return res
+    except:
+        return ""
 
 def get_code(
     adress: str, room_id: str, route: str = "exist", display: bool = False
@@ -99,9 +102,7 @@ def register(
     """
     func = ROUTES[route][0]
     link = adress + fuse_route(route, room_id)
-    response = func(
-        link, data={"id_salle": room_id, "name": name, "volume_max": volume}
-    )
+    response = func(link, data={"room_id": room_id, "name": name, "volume": volume})
     if display:
         print(link)
         print(response.json())
@@ -129,6 +130,15 @@ def report(
     """
     func = ROUTES[route][0]
     link = adress + fuse_route(route, room_id)
+    print(issue)
+    issue = {
+        "id": 0,
+        "date": datetime.now(),
+        "desc": issue,
+        "type": 0,
+        "camera_id": room_id,
+        "image": 0,
+    }
     # {"date": , "desc": , "report_type_id": }
     response = func(link, data=issue)
     if display:

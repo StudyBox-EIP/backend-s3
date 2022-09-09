@@ -1,4 +1,4 @@
-from src.content.video import video_flux
+from src.Software.content.video import video_flux
 
 
 def test_path_empty() -> None:

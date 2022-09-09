@@ -5,7 +5,7 @@ from content.video import video_flux
 from content.picture import check_pedestrian
 from addons.arguments import treat_arguments
 from room import Room
-from api_com import get_code
+from api_com import get_code, register, report
 
 
 def main() -> int:
@@ -32,7 +32,11 @@ def main() -> int:
         print(room)
         room.export_to_json()
     elif elm[0] == "api":
-        rtn_value = get_code(elm[2], "", "get_rooms", display=True)
+        room = Room()
+        room.config_load()
+        # rtn_value = get_code(elm[2], "", "get_rooms", display=True)
+        # rtn_value = register(elm[2], room.get_uuid(), name=room.get_name(), display=True)
+        rtn_value = report(elm[2], room.get_uuid(), room.get_room_status(), display=True)
     else:
         pass
     return rtn_value

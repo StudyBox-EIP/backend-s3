@@ -1,4 +1,4 @@
-from src.content.picture import check_pedestrian
+from src.Software.content.picture import check_pedestrian
 
 
 def test_pictures_normal() -> None:
