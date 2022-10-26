@@ -17,11 +17,12 @@ password = tk.StringVar()
 server_dev = tk.BooleanVar()
 
 
-def config_generate() -> None:
+def config_generate(id:int = 0) -> None:
     """_summary_
     """
     with open("config.json", mode="w") as json_file:
         data = {
+            "id": id,
             "name": room_name.get(),
             "volume": room_volume.get(),
             "room_id": room_uuid.get(),
@@ -30,7 +31,7 @@ def config_generate() -> None:
         print(f'Configuration file created at "{getcwd() + "/config.json"}"')
         messagebox.showinfo("File Success", f'Configuration file created at "{getcwd() + "/config.json"}".')
 
-def send_to_server() -> None:
+def send_to_server() -> int:
     """_summary_
     """
     address = "https://dev.api.studybox.fr" if server_dev.get() else "https://api.studybox.fr"
@@ -39,16 +40,17 @@ def send_to_server() -> None:
 
     if answer.status_code != 201:
         messagebox.showerror("Server Issue", txt["message"])
-        return
+        return 0
     messagebox.showinfo("Server Success", f'The camera has been set on the server. It has the ID {txt["id"]}. It is connected to room id{txt["room_id"]["id"]} - {txt["room_id"]["name"]}.')
     print(f'The camera has been set on the server. It has the ID {txt["id"]}. It is connected to room id{txt["room_id"]["id"]} - {txt["room_id"]["name"]}.')
+    return txt["id"]
 
 
 def generate_and_send() -> None:
     """_summary_
     """
-    config_generate()
-    send_to_server()
+    id = send_to_server()
+    config_generate(id)
 
 def main() -> int:
     # Info
