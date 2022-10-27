@@ -25,9 +25,9 @@ def video_flux(path: Union[str, int], show: bool = True) -> int:
             print("Closing program.")
             break
         (img, b0, b1) = detect_pedestrian(frame, max_width=600, scale=1.05)
-        cv.putText(img, f'Il y a {b1} personnes avec potentiellement {b0} personnes', (10, 30), cv.FONT_HERSHEY_COMPLEX, 0.4, (255, 255, 255), 1, cv.LINE_AA)
         if show:
-            cv.imshow("frame", img)
+            cv.putText(img, f'Il y a {b1} personnes avec potentiellement {b0} personnes', (10, 30), cv.FONT_HERSHEY_COMPLEX, 0.4, (255, 255, 255), 1, cv.LINE_AA)
+            cv.imshow("Retour Video", img)
     cap.release()
     cv.destroyAllWindows()
     return rt_value
