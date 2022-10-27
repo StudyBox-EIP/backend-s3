@@ -1,7 +1,6 @@
 """Info fo room"""
 import csv
 import json
-import uuid
 import datetime
 from zlib import compress, decompress
 from os.path import isfile
@@ -22,11 +21,27 @@ class RoomErrors(Enum):
         [type]: [description]
     """
 
-    NONE = (0, "No errors")
-    UNKNOWN = (1, "ISSUE: There is an issue with the Room")
-    TOO_LOUD = (2, "ISSUE: Room as too much noise")
-    TOO_MANY = (3, "FRAUD: There is currently too many people in the room")
-    TOO_LTL = (4, "FRAUD: There is a negative amount of people (Intruder)")
+    NONE = (6, "No errors")
+    UNKNOWN = (6, "ISSUE: There is an issue with the Room")
+    TOO_LOUD = (1, "ISSUE: Room as too much noise")
+    TOO_MANY = (2, "FRAUD: There is currently too many people in the room")
+    TOO_LTL = (2, "FRAUD: There is a negative amount of people (Intruder)")
+
+    def get_code(self) -> int:
+        """_summary_
+
+        Returns:
+            int: _description_
+        """
+        return self.value[0]
+
+    def get_txt(self) -> str:
+        """_summary_
+
+        Returns:
+            str: _description_
+        """
+        return self.value[1]
 
     def __str__(self) -> str:
         """Summary
@@ -68,8 +83,12 @@ def remove_no_errors(elm: RoomErrors) -> bool:
 class Room:
     """_summary_"""
 
-    room_id: uuid.UUID
+    room_id: int = 0
+    id: int = 0
     name: str = ""
+    time_open: datetime.datetime
+    time_close: datetime.datetime
+    time_wait: int = 30
     max_occupancy: int = 0
     current_occupancy: int = 0
     max_volume: int = 0
@@ -80,8 +99,8 @@ class Room:
     def __init__(
         self,
         name: str = "Unnamed",
-        max_occupancy: int = 1,
-        room_id: uuid.UUID = uuid.uuid4(),
+        cam_id: int = 0,
+        room_id: int = 0,
         max_volume: int = 70,
     ):
         """Summary
@@ -93,8 +112,8 @@ class Room:
             max_volume (int, optional): [description]. Defaults to 70.
         """
         self.name = name
+        self.id = cam_id
         self.room_id = room_id
-        self.max_occupancy = max_occupancy
         self.max_volume = max_volume
 
     def __str__(self) -> str:
@@ -103,7 +122,7 @@ class Room:
         Returns:
             str: [description]
         """
-        return f"Name: '{self.name}', UUID: '{self.room_id}', \
+        return f"Name: {self.id}-'{self.name}', Room ID: {self.room_id}, \
             Occupancy: {self.current_occupancy}/{self.max_occupancy}, \
             Volume: {self.current_volume}/{self.max_volume} db, \
             Time: {datetime.datetime.now().timestamp():.0f} UTC"
@@ -116,13 +135,26 @@ class Room:
         """
         with open(filename, mode="w") as json_file:
             data = {
-                "uuid": self.room_id.__str__(),
+                "id": self.room_id.__str__(),
                 "name": self.name,
                 "volume": self.max_volume,
-                "occupancy": self.max_occupancy,
+                "room_id": self.max_occupancy,
             }
             json.dump(data, json_file, indent=4)
             print(f'Configuration file created at "{getcwd() + "/" + filename}"')
+
+    def update_info_from_server(self, data: object):
+        self.max_occupancy = data["seats_total"]
+        self.time_open = datetime.datetime.strptime(
+            data["open_hours"][0]["hour_start"], "%Y-%m-%dT%H:%M:%S.000Z"
+        )
+        self.time_close = datetime.datetime.strptime(
+            data["open_hours"][-1]["hour_end"], "%Y-%m-%dT%H:%M:%S.000Z"
+        )
+
+    def get_when_to_load(self):
+        value = (self.time_open - datetime.datetime.now()).total_seconds()
+        return value if value > 0 else 0
 
     def config_load(self, filename: str = "config.json") -> None:
         """_summary_
@@ -135,10 +167,10 @@ class Room:
             return
         with open(filename, mode="r+") as json_file:
             data = json.loads(json_file.read())
-            self.room_id = data["uuid"]
+            self.id = data["id"]
+            self.room_id = data["room_id"]
             self.name = data["name"]
             self.max_volume = data["volume"]
-            self.max_occupancy = data["occupancy"]
 
     def update_room_status(
         self, status: RoomStatus, amount: int, volume: int
@@ -228,7 +260,7 @@ class Room:
         if not isfile(filename):
             with open(filename, mode="w") as json_file:
                 data = {
-                    "uuid": self.room_id.__str__(),
+                    "room_id": self.room_id.__str__(),
                     "name": self.name,
                     "occupancy": self.max_occupancy,
                     "volume": self.max_volume,
@@ -301,9 +333,3 @@ class Room:
         elif self.current_volume > self.max_volume:
             value = RoomErrors.TOO_LOUD
         return value
-
-    def get_name(self):
-        return self.name
-
-    def get_uuid(self):
-        return self.room_id

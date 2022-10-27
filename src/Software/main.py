@@ -6,7 +6,7 @@ from content.video import video_flux
 from content.picture import check_pedestrian
 from addons.arguments import treat_arguments
 from room import Room
-from api_com import get_code, register, report
+from api_com import get_room, report
 
 
 def main() -> int:
@@ -35,13 +35,13 @@ def main() -> int:
     elif elm[0] == "api":
         room = Room()
         room.config_load()
-        rtn_value = get_code(elm[2], "", "get_rooms", display=True)
-        rtn_value = register(elm[2], room.get_uuid(), name=room.get_name(), display=True)
+        room.update_info_from_server(get_room(elm[2], room.id))
+        print(f"Waiting {room.get_when_to_load()}s until the room is open")
+        sleep(room.get_when_to_load())
         maxi = 10
-        timer = 3
         while maxi:
-            rtn_value = report(elm[2], room.get_uuid(), room.get_room_status(), display=True)
-            sleep(timer)
+            rtn_value = report(elm[2], room.id, room.get_room_status())
+            sleep(room.time_wait)
             maxi -= 1
     else:
         pass
