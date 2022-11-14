@@ -11,3 +11,4 @@ pluggy>= 0.13.*
 requests>=2.26.*
 types-requests>=2.26.*
 pyinstaller>=5.*
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
