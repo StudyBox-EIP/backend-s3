@@ -1,4 +1,4 @@
-from src.Software.api_com import fuse_route
+from Software.content.api_com import fuse_route
 
 def test_fusion_non_existant() -> None:
     assert fuse_route("hello", "ok") == ""

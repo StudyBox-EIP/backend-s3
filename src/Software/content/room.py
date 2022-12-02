@@ -2,7 +2,6 @@
 import csv
 import json
 import datetime
-from zlib import compress, decompress
 from os.path import isfile
 from os import getcwd
 from enum import Enum
@@ -86,11 +85,12 @@ class Room:
     room_id: int = 0
     id: int = 0
     name: str = ""
-    time_open: datetime.datetime
-    time_close: datetime.datetime
-    time_wait: int = 30
+    time_open: datetime.datetime = None
+    time_close: datetime.datetime = None
+    update_time: int = 1
+    time_wait: int = 0
     max_occupancy: int = 0
-    current_occupancy: int = 0
+    current_occupancy: float = 0.0
     max_volume: int = 0
     current_volume: int = 0
     current_occupants: list[str] = []
@@ -151,6 +151,45 @@ class Room:
         self.time_close = datetime.datetime.strptime(
             data["open_hours"][-1]["hour_end"], "%Y-%m-%dT%H:%M:%S.000Z"
         )
+
+    def get_current_max_occupancy(self, data: object, time: str):
+        for timezone in data["open_hours"]:
+            if (
+                datetime.datetime.strptime(
+                    timezone["hour_start"], "%Y-%m-%dT%H:%M:%S.000Z"
+                )
+                <= datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.000Z")
+                <= datetime.datetime.strptime(
+                    timezone["hour_end"], "%Y-%m-%dT%H:%M:%S.000Z"
+                )
+            ):
+                self.max_occupancy = data["seats_total"] - timezone["avaible_seat"]
+                self.time_open = datetime.datetime.strptime(
+                    timezone["hour_start"], "%Y-%m-%dT%H:%M:%S.000Z"
+                )
+                self.time_close = datetime.datetime.strptime(
+                    timezone["hour_end"], "%Y-%m-%dT%H:%M:%S.000Z"
+                )
+        if self.max_occupancy == 0:
+            if datetime.datetime.strptime(
+                time, "%Y-%m-%dT%H:%M:%S.000Z"
+            ) < datetime.datetime.strptime(
+                data["open_hours"][0]["hour_start"], "%Y-%m-%dT%H:%M:%S.000Z"
+            ):
+                self.time_wait = (
+                    datetime.datetime.strptime(data["open_hours"][0]["hour_start"], "%Y-%m-%dT%H:%M:%S.000Z")
+                    - datetime.datetime.strptime(
+                        time, "%Y-%m-%dT%H:%M:%S.000Z"
+                    )
+                ).total_seconds()
+            elif datetime.datetime.strptime(
+                time, "%Y-%m-%dT%H:%M:%S.000Z"
+            ) > datetime.datetime.strptime(
+                data["open_hours"][-1]["hour_end"], "%Y-%m-%dT%H:%M:%S.000Z"
+            ):
+                self.time_wait = 3600
+            else:
+                self.time_wait = 1800
 
     def get_when_to_load(self):
         value = (self.time_open - datetime.datetime.now()).total_seconds()
@@ -312,12 +351,6 @@ class Room:
                 amount > self.current_occupancy
             ]
         return RoomErrors.NONE
-
-    def get_supposed_occupants(self) -> None:
-        """Summary"""
-        # UPDATE AMOUNT
-        self.supossed_occupants = []
-        # UPDATE AMOUNT ENDED
 
     def get_room_status(self) -> RoomErrors:
         """Summary
