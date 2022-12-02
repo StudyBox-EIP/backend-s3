@@ -5,7 +5,7 @@ from os.path import isfile
 import sys
 
 # Default video when 'vid' type is selected
-DEFAULT_VIDEO = "assets/videos/rabbit.mp4"
+DEFAULT_VIDEO = "assets/videos/chalais_cinema_long.mp4"
 
 
 # This is all format video accepted by the program
@@ -19,7 +19,7 @@ PROD_API = "https://api.studybox.fr"
 DEFAULT_CONFIG_FILE = "config"
 
 
-def parse_arguments(arguments: List[str]) -> Tuple[str, str, str, str, bool]:
+def parse_arguments(arguments: List[str]) -> Tuple[str, str, str, str, bool, int]:
     """This fonction parses all the arguments and takes care of the help display.
 
     This returns a tuple of all the wanted arguement.
@@ -61,12 +61,19 @@ def parse_arguments(arguments: List[str]) -> Tuple[str, str, str, str, bool]:
         default=False,
         help="this generates a config file for the room",
     )
+    parser.add_argument(
+        "-i",
+        "--input",
+        type=int,
+        default=0,
+        help="this tells the system wich camera to use",
+    )
     try:
         args = parser.parse_args(arguments)
     except ArgumentError:
         parser.print_help()
         sys.exit(84)
-    return (args.type, args.file, args.dev, args.config, args.generate)
+    return (args.type, args.file, args.dev, args.config, args.generate, args.input)
 
 
 def treat_arguments(args: List[str]) -> Tuple[str, str, str, str, bool]:
@@ -89,5 +96,5 @@ def treat_arguments(args: List[str]) -> Tuple[str, str, str, str, bool]:
         print("Adress given is not a file or doesn't exist.", file=sys.stderr)
         sys.exit(84)
     if parse[3] is None:
-        return (parse[0], parse[1], parse[2], DEFAULT_CONFIG_FILE, parse[4])
-    return (parse[0], parse[1], parse[2], parse[3], parse[4])
+        return (parse[0], parse[1], parse[2], DEFAULT_CONFIG_FILE, parse[4], parse[5])
+    return (parse[0], parse[1], parse[2], parse[3], parse[4], parse[5])
