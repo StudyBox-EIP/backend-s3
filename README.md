@@ -5,7 +5,7 @@ This used to use git annex and some commits have been imparted by it.
 
 Current advancement on Sprint:
 
-![Advancements](https://progress-bar.dev/42/?scale=100&width=200&title=Done)
+![Advancements](https://progress-bar.dev/100/?scale=100&width=200&title=Done)
 
 ## Table of Content
 
@@ -30,7 +30,7 @@ Current advancement on Sprint:
 [![Python - Quality Check](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-quality.yml)
 [![Python - Testing](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml/badge.svg)](https://github.com/StudyBox-EIP/backend-s3/actions/workflows/python-tests.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8080333da996469ca2ed7e9d23471efe)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=StudyBox-EIP/backend-s3&amp;utm_campaign=Badge_Grade)
-![pylint Score](https://mperlet.github.io/pybadge/badges/9.92.svg)
+![pylint Score](https://mperlet.github.io/pybadge/badges/9.96.svg)
 
 ## Installation
 

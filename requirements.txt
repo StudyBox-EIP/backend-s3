@@ -10,3 +10,5 @@ numpy>=1.21.*
 pluggy>= 0.13.*
 requests>=2.26.*
 types-requests>=2.26.*
+pyinstaller>=5.*
+tk>=0.1.*
